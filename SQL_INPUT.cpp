@@ -13,13 +13,13 @@ std::regex Check_Database_Creation("^create database \\w+;$");
 std::regex Check_Database_Choosing("^use \\w+;$");
 // Database choosing *** 'use database_name;'
 
-std::regex Check_Table_Creation("^create table \\w+[ ]?([^\f\n\r\t\v]);$");
+std::regex Check_Table_Creation("^create table \\w+[ ]?([^\f\n\r\t\v]+);$");
 // Table creation *** 'create table table_name ('name' int,'name' varchar(20));'
 
-std::regex Check_Data_Insertion("^insert into \\w+ values[ ]?([^\f\n\r\t\v]);$");
+std::regex Check_Data_Insertion("^insert into \\w+ values[ ]?([^\f\n\r\t\v]+);$");
 // Data insertion *** 'insert into table_name values("name",123,234);'
 
-std::regex Check_Data_Searching("^select \\w+ from \\w+");
+std::regex Check_Data_Searching("^select (\\w+|\\*) from \\w+");
 // Data searching *** 'select name from table_name;'
 
 std::regex Check_Data_Updating("update \\w+ set \\w+ = \\w+");
@@ -37,9 +37,36 @@ std::regex Check_Where_Sentence("where \\w+ (<|>|<=|>=|!=|=) \\w+;$");
  * Calls: 																	   *
  *******************************************************************************/
 
-int Command(){
-	std::string tempcommand="";
-	tempcommand = std::cin.get();
-	std::getchar();
+int Command() {
+//int main(){
+	std::string Temp_Command = "";
+	std::getline(std::cin,Temp_Command,'\n');
+	//std::cout<<Temp_Command<<std::endl;
+	std::smatch Command_Match_Result;
+	if(std::regex_search(Temp_Command, Command_Match_Result, Check_Database_Creation)){
+		//std::cout<<"command1 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else if(std::regex_search(Temp_Command, Command_Match_Result, Check_Database_Choosing)){
+		//std::cout<<"command2 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else if(std::regex_search(Temp_Command, Command_Match_Result, Check_Table_Creation)){
+		//std::cout<<"command3 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else if(std::regex_search(Temp_Command, Command_Match_Result, Check_Data_Insertion)){
+		//std::cout<<"command4 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else if(std::regex_search(Temp_Command, Command_Match_Result, Check_Data_Searching)){
+		//std::cout<<"command5 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else if(std::regex_search(Temp_Command, Command_Match_Result, Check_Data_Updating)){
+		//std::cout<<"command6 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else if(std::regex_search(Temp_Command, Command_Match_Result, Check_Data_Erasing)){
+		//std::cout<<"command7 "<<Command_Match_Result.str()<<std::endl;
+	}
+	else std::cout<<"Unknown command, please try again. Enter command 'help;' if help is necessary."<<std::endl;
+	if(std::regex_search(Temp_Command, Command_Match_Result, Check_Where_Sentence)){
+		//std::cout<<"commandwhere "<<Command_Match_Result.str()<<std::endl;
+	}
 
 }
